@@ -35,11 +35,16 @@ runs:
         run: terraform fmt -check -recursive
         continue-on-error: ${{ fromJSON(inputs.continue_on_error) }}
 
-outputs:
-  output:
-    description: "stdout from terraform fmt -check -recursive"
-    value: ${{ steps.fmt-check.outputs.stdout }}
-  exit-code:
-    description: "exit code from terraform fmt -check -recursive"
-    value: ${{ steps.fmt-check.outputs.exit-code }}
+      - name: Set Outputs
+        shell: bash
+        run: |
+          echo "::set-output name=output::${{ steps.fmt-check.outputs.stdout }}"
+          echo "::set-output name=exit-code::${{ steps.fmt-check.outputs.exit-code }}"
+# outputs:
+#   output:
+#     description: "stdout from terraform fmt -check -recursive"
+#     value: ${{ steps.fmt-check.outputs.stdout }}
+#   exit-code:
+#     description: "exit code from terraform fmt -check -recursive"
+#     value: ${{ steps.fmt-check.outputs.exit-code }}
   
