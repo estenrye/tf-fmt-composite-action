@@ -28,23 +28,8 @@ runs:
         with:
           terraform_version: ${{ inputs.terraform_version }}
 
-      - name: Run Terraform Format Check
-        id: fmt-check
-        shell: bash
-        working-directory: ${{ inputs.working_directory }}
-        run: terraform fmt -check -recursive
-        continue-on-error: ${{ fromJSON(inputs.continue_on_error) }}
-
       - name: Set Outputs
         shell: bash
         run: |
-          echo "::set-output name=output::${{ steps.fmt-check.outputs.stdout }}"
-          echo "::set-output name=exit-code::${{ steps.fmt-check.outputs.exit-code }}"
-# outputs:
-#   output:
-#     description: "stdout from terraform fmt -check -recursive"
-#     value: ${{ steps.fmt-check.outputs.stdout }}
-#   exit-code:
-#     description: "exit code from terraform fmt -check -recursive"
-#     value: ${{ steps.fmt-check.outputs.exit-code }}
-  
+          echo "output=${{ steps.fmt-check.outputs.stdout }}" >> "$GITHUB_OUTPUT";
+          echo "exit-code=${{ steps.fmt-check.outputs.exit-code }}" >> "$GITHUB_OUTPUT";
