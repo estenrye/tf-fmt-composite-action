@@ -28,8 +28,23 @@ runs:
         with:
           terraform_version: ${{ inputs.terraform_version }}
 
-      - name: Set Outputs
+      - name: Check Terraform formatting
+        id: fmt-check
         shell: bash
-        run: |
-          echo "output=${{ steps.fmt-check.outputs.stdout }}" >> "$GITHUB_OUTPUT";
-          echo "exit-code=${{ steps.fmt-check.outputs.exit-code }}" >> "$GITHUB_OUTPUT";
+        run: 
+          terraform fmt --check --recursive
+        working-directory: ${{ inputs.working_directory }}
+
+      # - name: Set Outputs
+      #   shell: bash
+      #   run: |
+      #     echo "output=${{ steps.fmt-check.outputs.stdout }}" >> "$GITHUB_OUTPUT";
+      #     echo "exit-code=${{ steps.fmt-check.outputs.exit-code }}" >> "$GITHUB_OUTPUT";
+
+outputs:
+  output:
+    description: 'The output of the Terraform formatting check'
+    value: ${{ steps.fmt-check.outputs.stdout }}
+  exit-code:
+    description: 'The exit code of the Terraform formatting check'
+    value: ${{ steps.fmt-check.outputs.exit-code }}
