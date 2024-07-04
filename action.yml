@@ -32,19 +32,6 @@ runs:
         id: fmt-check
         shell: bash
         run: |
-          terraform fmt --check --recursive || echo "exit-code=$?" >> "$GITHUB_OUTPUT";
+          terraform fmt --check --recursive
         working-directory: ${{ inputs.working_directory }}
         continue-on-error: ${{ fromJSON(inputs.continue_on_error) }}
-
-      - name: Set Outputs
-        shell: bash
-        run: |
-          echo "output=${{ steps.fmt-check.outputs.stdout }}" >> "$GITHUB_OUTPUT";
-
-# outputs:
-#   output:
-#     description: 'The output of the Terraform formatting check'
-#     value: ${{ steps.fmt-check.outputs.stdout }}
-#   exit-code:
-#     description: 'The exit code of the Terraform formatting check'
-#     value: ${{ steps.fmt-check.outputs.exit-code }}

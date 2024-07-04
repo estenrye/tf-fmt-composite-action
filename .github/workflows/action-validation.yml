@@ -26,8 +26,8 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: 0
-          actual: ${{ steps.invalid-terraform.outputs.exit-code }}
+          expected: success
+          actual: ${{ steps.invalid-terraform.outcome }}
           comparison: notEqual
 
   valid-terraform:
@@ -47,6 +47,6 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: 0
-          actual: ${{ steps.valid-terraform.outputs.exit-code }}
+          expected: success
+          actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
