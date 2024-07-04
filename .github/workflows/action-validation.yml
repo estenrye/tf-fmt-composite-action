@@ -10,7 +10,7 @@ on:
 
 jobs:
   invalid-terraform:
-    name: Validate Terraform
+    name: Validate Invalid Terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -31,7 +31,7 @@ jobs:
           comparison: notEqual
 
   valid-terraform:
-    name: Validate Terraform
+    name: Validate Valid Terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -49,4 +49,4 @@ jobs:
         with:
           expected: 0
           actual: ${{ steps.valid-terraform.outputs.exit-code }}
-          comparison: Equal
+          comparison: exact
