@@ -1,0 +1,45 @@
+name: TF Format
+author: Esten Rye
+description: Check Terraform code formatting
+branding:
+  icon: check-circle
+  color: blue
+inputs:
+  working_directory:
+    description: 'The directory where Terraform files are located'
+    required: false
+    default: '.'
+  terraform_version:
+    description: 'The version of Terraform to use'
+    required: true
+    default: latest
+  continue_on_error:
+    description: 'Whether to fail if the formatting check fails'
+    required: false
+    default: "false"
+runs:
+    using: 'composite'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Run Terraform Format Check
+        id: fmt-check
+        shell: bash
+        working-directory: ${{ inputs.working_directory }}
+        run: terraform fmt -check -recursive
+        continue-on-error: ${{ fromJSON(inputs.continue_on_error) }}
+
+outputs:
+  output:
+    description: "stdout from terraform fmt -check -recursive"
+    value: ${{ steps.fmt-check.outputs.stdout }}
+  exit-code:
+    description: "exit code from terraform fmt -check -recursive"
+    value: ${{ steps.fmt-check.outputs.exit-code }}
+  

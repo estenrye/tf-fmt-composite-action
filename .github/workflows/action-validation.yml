@@ -1,0 +1,46 @@
+name: Test Terraform Action
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  invalid-terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+        - name: Check Invalid Terraform Formatting
+          id: invalid-terraform
+          uses: ./
+          with:
+            working_directory: './tf-tests/invalidly-formatted'
+            terraform_version: 'latest'
+            continue_on_error: true
+
+        - uses: nick-fields/assert-action@v2
+          with:
+            expected: 0
+            actual: ${{ steps.invalid-terraform.outputs.exit-code }}
+            comparison: notEqual
+
+  valid-terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+        - name: Check Valid Terraform Formatting
+          uses: ./
+          id: valid-terraform
+          with:
+            working_directory: './tf-tests/validly-formatted'
+            terraform_version: 'latest'
+            continue_on_error: true
+
+        - uses: nick-fields/assert-action@v2
+          with:
+            expected: 0
+            actual: ${{ steps.valid-terraform.outputs.exit-code }}
+            comparison: Equal
