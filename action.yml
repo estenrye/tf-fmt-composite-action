@@ -13,10 +13,6 @@ inputs:
     description: 'The version of Terraform to use'
     required: true
     default: latest
-  continue_on_error:
-    description: 'Whether to fail if the formatting check fails'
-    required: false
-    default: "false"
 runs:
     using: 'composite'
     steps:
@@ -31,7 +27,5 @@ runs:
       - name: Check Terraform formatting
         id: fmt-check
         shell: bash
-        run: |
-          terraform fmt --check --recursive
+        run: terraform fmt --check --recursive
         working-directory: ${{ inputs.working_directory }}
-        continue-on-error: ${{ fromJSON(inputs.continue_on_error) }}

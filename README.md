@@ -28,7 +28,6 @@ jobs:
 |------|-------------|----------|---------|
 | `working_directory` | The directory to run `terraform fmt` in. | No | `.` |
 | `terraform_version` | The version of Terraform to use. | No | `latest` |
-| `continue_on_error` | Whether to continue the workflow if an error occurs. | No | `false` |
 
 ## Outputs
 
