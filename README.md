@@ -29,9 +29,10 @@ jobs:
 | `working_directory` | The directory to run `terraform fmt` in. | No | `.` |
 | `terraform_version` | The version of Terraform to use. | No | `latest` |
 
-## Outputs
+## Build Integration Pipeline Componenets Used
 
-| Name | Description |
-|------|-------------|
-| `output` | The output of the `terraform fmt` command. |
-| `exit-code` | The exit-code of the `terraform fmt` command. |
+Actions used in this repository:
+- [actions/checkout](https://github.com/marketplace/actions/checkout)
+- [hashicorp/setup-terraform](https://github.com/marketplace/actions/hashicorp-setup-terraform)
+- [phish108/autotag-action](https://github.com/marketplace/actions/autotag)
+- [nick-fields/assert-action](https://github.com/marketplace/actions/assert-action)
