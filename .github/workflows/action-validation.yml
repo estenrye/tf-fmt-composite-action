@@ -50,3 +50,42 @@ jobs:
           expected: success
           actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
+  create-pre-release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [valid-terraform, invalid-terraform]
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            LICENSE.txt
+            action.yml
+            README.md
+  create-release:
+    if: github.event_name == 'push' && github.ref == 'refs/tags/*'
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [valid-terraform, invalid-terraform]
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          title: "Release"
+          files: |
+            LICENSE.txt
+            action.yml
+            README.md
