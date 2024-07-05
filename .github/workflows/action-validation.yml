@@ -71,8 +71,6 @@ jobs:
             action.yml
             README.md
       - uses: Klemensas/action-autotag@stable
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   create-release:
     if: github.event_name == 'push' && github.ref == 'refs/tags/*'
     name: Create Release
