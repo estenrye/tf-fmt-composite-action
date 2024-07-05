@@ -33,6 +33,7 @@ jobs:
 
 Actions used in this repository:
 - [actions/checkout](https://github.com/marketplace/actions/checkout)
+- [elgohr/Github-Release-Action](https://github.com/elgohr/Github-Release-Action)
 - [hashicorp/setup-terraform](https://github.com/marketplace/actions/hashicorp-setup-terraform)
 - [phish108/autotag-action](https://github.com/marketplace/actions/autotag)
 - [nick-fields/assert-action](https://github.com/marketplace/actions/assert-action)
