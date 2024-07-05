@@ -52,7 +52,7 @@ jobs:
           comparison: exact
   create-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    name: Create Pre-Release
+    name: Create Release Tag
     runs-on: ubuntu-latest
     needs: [valid-terraform, invalid-terraform]
     permissions:
@@ -60,11 +60,10 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v3
-      - uses: butlerlogic/action-autotag@1.1.4
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: phish108/autotag-action@v1.1.64
         with:
-          tag_prefix: "v"
+          github-token: ${{ secrets.GITHUB_TOKEN}}
+          with-v: "true"
   # create-release:
   #   if: github.event_name == 'push' && github.ref == 'refs/tags/*'
   #   name: Create Release
