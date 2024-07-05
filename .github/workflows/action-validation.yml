@@ -70,9 +70,10 @@ jobs:
             LICENSE.txt
             action.yml
             README.md
-      - uses: Klemensas/action-autotag@stable
-        with:
+      - uses: butlerlogic/action-autotag@v1.1.4
+        env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
           tag_prefix: "v"
   create-release:
     if: github.event_name == 'push' && github.ref == 'refs/tags/*'
