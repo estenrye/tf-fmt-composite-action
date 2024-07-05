@@ -52,7 +52,7 @@ jobs:
           comparison: exact
   create-pre-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    name: Create Release
+    name: Create Pre-Release
     runs-on: ubuntu-latest
     needs: [valid-terraform, invalid-terraform]
     permissions:
@@ -70,6 +70,9 @@ jobs:
             LICENSE.txt
             action.yml
             README.md
+      - uses: Klemensas/action-autotag@stable
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   create-release:
     if: github.event_name == 'push' && github.ref == 'refs/tags/*'
     name: Create Release
