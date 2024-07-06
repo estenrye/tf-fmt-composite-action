@@ -37,3 +37,4 @@ Actions used in this repository:
 - [hashicorp/setup-terraform](https://github.com/marketplace/actions/hashicorp-setup-terraform)
 - [phish108/autotag-action](https://github.com/marketplace/actions/autotag)
 - [nick-fields/assert-action](https://github.com/marketplace/actions/assert-action)
+- [Ilshidur/action-discord](https://github.com/marketplace/actions/actions-for-discord)
