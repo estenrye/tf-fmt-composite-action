@@ -1,19 +1,20 @@
 name: Publish Release
 on:
-  workflow_run:
-    workflows: [Test Terraform Action]
-    types:
-      - completed
-    branches:
-      - main
+  push:
+    tags:
+      - 'v*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Create a Release
-      uses: elgohr/Github-Release-Action@20240405193535
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        title: ${{ github.ref }}
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        automatic_release_tag: latest
+        files: |
+          LICENSE
+          README.md
+          action.yml

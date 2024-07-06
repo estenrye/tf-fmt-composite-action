@@ -60,27 +60,16 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
+      - name: Load secrets
+        uses: 1password/load-secrets-action@v2
+        with:
+          # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          GH_PAT: op://Home_Lab/GitHub-Actions-PAT/credential
       - uses: phish108/autotag-action@v1.1.64
         id: autotag
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN}}
+          github-token: ${{ env.GH_PAT }}
           with-v: "true"
-  # create-release:
-  #   name: Create Release
-  #   runs-on: ubuntu-latest
-  #   needs: create-release-tag
-  #   permissions:
-  #     contents: write
-  #     actions: write
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/create-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         tag_name: ${{ needs.create-release-tag.outputs.tag }}
-  #         release_name: ${{ needs.create-release-tag.outputs.tag }}
-  #         body: |
-  #           This is an automated release
-  #         draft: false
-  #         prerelease: false
