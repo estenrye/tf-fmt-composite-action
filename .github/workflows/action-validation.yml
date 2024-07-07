@@ -73,3 +73,24 @@ jobs:
         with:
           github-token: ${{ env.GH_PAT }}
           with-v: "true"
+  check-failure:
+    name: Check Failure
+    runs-on: ubuntu-latest
+    needs: [valid-terraform, invalid-terraform, create-release-tag]
+    if: failure()
+    steps:
+      - name: Load secrets
+        uses: 1password/load-secrets-action@v2
+        with:
+          # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          DISCORD_WEBHOOK: op://Home_Lab/Discord-Webhooks/github-actions-bot-error
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            {{ EVENT_PAYLOAD.repository.full_name }} has encountered an error.
+            Github Workflow Run URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+            Github Ref : ${{github.ref}}
