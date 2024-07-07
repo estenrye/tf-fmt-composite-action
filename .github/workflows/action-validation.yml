@@ -50,11 +50,6 @@ jobs:
           expected: success
           actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: success
-          actual: failure
-          comparison: exact
   create-release-tag:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Create Release Tag
