@@ -97,5 +97,5 @@ jobs:
         with:
           args: |
             {{ EVENT_PAYLOAD.repository.full_name }} has encountered an error.
-            Github Workflow Run URL: ${{github.server_url}}/${{github.repository_owner}}/${{github.repository}}/actions/runs/${{github.run_id}}
+            Github Workflow Run URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
             Github Ref : ${{github.ref}}
