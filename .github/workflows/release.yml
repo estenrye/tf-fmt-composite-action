@@ -8,7 +8,7 @@ permissions:
   packages: write
   contents: write
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -37,4 +37,6 @@ jobs:
     - name: Discord notification
       uses: Ilshidur/action-discord@master
       with:
-        args: '{{ EVENT_PAYLOAD.repository.full_name }} has published Release: ${{githb.ref_name}}'
+        args: |
+          {{ EVENT_PAYLOAD.repository.full_name }} has published Release: ${{github.ref_name}}
+          Github Release URL: ${{github.server_url}}/${{github.repository_owner}}/${{github.repository}}/releases/tag/${{github.ref_name}}

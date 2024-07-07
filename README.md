@@ -19,7 +19,6 @@ jobs:
       with:
         working_directory: './tf-tests/validly-formatted'
         terraform_version: 'latest'
-        continue_on_error: false
 ```
 
 ## Inputs
