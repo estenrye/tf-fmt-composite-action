@@ -39,4 +39,4 @@ jobs:
       with:
         args: |
           {{ EVENT_PAYLOAD.repository.full_name }} has published Release: ${{github.ref_name}}
-          Github Release URL: ${{github.server_url}}/${{github.repository_owner}}/${{github.repository}}/releases/tag/${{github.ref_name}}
+          Github Release URL: ${{github.server_url}}/${{github.repository}}/releases/tag/${{github.ref_name}}
