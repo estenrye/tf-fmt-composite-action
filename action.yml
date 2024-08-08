@@ -54,6 +54,7 @@ runs:
       - name: Write Outputs
         id: write-outputs
         shell: bash
+        if: always()
         run: |
           echo "setup-terraform-outcome=${{ steps.setup-terraform.outcome }}" >> $GITHUB_OUTPUT
           echo "fmt-check-terraform-outcome=${{ steps.fmt-check-terraform.outcome }}" >> $GITHUB_OUTPUT
