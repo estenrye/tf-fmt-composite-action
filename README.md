@@ -27,6 +27,7 @@ jobs:
 |------|-------------|----------|---------|
 | `working_directory` | The directory to run `terraform fmt` in. | No | `.` |
 | `terraform_version` | The version of Terraform to use. | No | `latest` |
+| `use_opentofu` | Whether to use the `opentofu` tool to check formatting. | No | `false` |
 
 ## Build Integration Pipeline Componenets Used
 
