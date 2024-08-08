@@ -51,12 +51,16 @@ runs:
         run: tofu fmt --check --recursive
         working-directory: ${{ inputs.working_directory }}
 
-      - name: Write Outputs
-        id: write-outputs
-        shell: bash
-        if: always()
-        run: |
-          echo "setup-terraform-outcome=${{ steps.setup-terraform.outcome }}" >> $GITHUB_OUTPUT
-          echo "fmt-check-terraform-outcome=${{ steps.fmt-check-terraform.outcome }}" >> $GITHUB_OUTPUT
-          echo "setup-opentofu-outcome=${{ steps.setup-opentofu.outcome }}" >> $GITHUB_OUTPUT
-          echo "fmt-check-tofu-outcome=${{ steps.fmt-check-tofu.outcome }}" >> $GITHUB_OUTPUT
+outputs:
+  setup-terraform-outcome:
+    description: 'The outcome of the Terraform setup step'
+    value: ${{ steps.setup-terraform.outcome }}
+  fmt-check-terraform-outcome:
+    description: 'The outcome of the Terraform formatting check step'
+    value: ${{ steps.fmt-check-terraform.outcome }}
+  setup-opentofu-outcome:
+    description: 'The outcome of the OpenTofu setup step'
+    value: ${{ steps.setup-opentofu.outcome }}
+  fmt-check-tofu-outcome:
+    description: 'The outcome of the OpenTofu formatting check step'
+    value: ${{ steps.fmt-check-tofu.outcome }}
