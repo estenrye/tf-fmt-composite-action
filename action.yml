@@ -10,9 +10,13 @@ inputs:
     required: false
     default: '.'
   terraform_version:
-    description: 'The version of Terraform to use'
+    description: 'The version of Terraform or OpenTofu to use'
     required: true
     default: latest
+  use_opentofu:
+    description: 'Use OpenTofu instead of Terraform'
+    required: false
+    default: 'false'
 runs:
     using: 'composite'
     steps:
@@ -20,12 +24,38 @@ runs:
         uses: actions/checkout@v4
 
       - name: Setup Terraform
+        id: setup-terraform
         uses: hashicorp/setup-terraform@v3
+        if: ${{ fromJSON(inputs.use_opentofu) == false }}
         with:
           terraform_version: ${{ inputs.terraform_version }}
 
       - name: Check Terraform formatting
-        id: fmt-check
+        id: fmt-check-terraform
         shell: bash
+        if: ${{ fromJSON(inputs.use_opentofu) == false }}
         run: terraform fmt --check --recursive
         working-directory: ${{ inputs.working_directory }}
+
+      - name: OpenTofu - Setup Tofu
+        id: setup-opentofu
+        uses: opentofu/setup-opentofu@v1.0.3
+        if: ${{ fromJSON(inputs.use_opentofu) == true }}
+        with:
+          tofu_version: ${{ inputs.terraform_version }}
+    
+      - name: Check OpenTofu formatting
+        id: fmt-check-tofu
+        shell: bash
+        if: ${{ fromJSON(inputs.use_opentofu) == true }}
+        run: tofu fmt --check --recursive
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Write Outputs
+        id: write-outputs
+        shell: bash
+        run: |
+          echo "setup-terraform-outcome=${{ steps.setup-terraform.outcome }}" >> $GITHUB_OUTPUT
+          echo "fmt-check-terraform-outcome=${{ steps.fmt-check-terraform.outcome }}" >> $GITHUB_OUTPUT
+          echo "setup-opentofu-outcome=${{ steps.setup-opentofu.outcome }}" >> $GITHUB_OUTPUT
+          echo "fmt-check-tofu-outcome=${{ steps.fmt-check-tofu.outcome }}" >> $GITHUB_OUTPUT
