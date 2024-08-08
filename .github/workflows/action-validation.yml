@@ -24,11 +24,91 @@ jobs:
           terraform_version: 'latest'
         continue-on-error: true
 
-      - uses: nick-fields/assert-action@v2
+      - name: Assert that the action failed
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: failure
+          actual: ${{ steps.invalid-terraform.outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform setup was successful
+        uses: nick-fields/assert-action@v2
         with:
           expected: success
+          actual: ${{ steps.invalid-terraform.outputs.setup-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform formatting check failed
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: failure
+          actual: ${{ steps.invalid-terraform.outputs.fmt-check-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu setup was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.invalid-terraform.outputs.setup-opentofu-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu formatting check was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.invalid-terraform.outputs.fmt-check-tofu-outcome }}
+          comparison: exact
+
+  invalid-opentofu:
+    name: Validate Invalid OpenTofu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Invalid Terraform Formatting
+        id: invalid-terraform
+        uses: ./
+        with:
+          working_directory: './tf-tests/invalidly-formatted'
+          terraform_version: 'latest'
+          use_opentofu: 'true'
+        continue-on-error: true
+
+      - name: Assert that the action failed
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: failure
           actual: ${{ steps.invalid-terraform.outcome }}
-          comparison: notEqual
+          comparison: exact
+
+      - name: Assert that Terraform setup was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.invalid-terraform.outputs.setup-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform formatting check was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.invalid-terraform.outputs.fmt-check-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu setup was successful
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.invalid-terraform.outputs.setup-opentofu-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu formatting check failed
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: failure
+          actual: ${{ steps.invalid-terraform.outputs.fmt-check-tofu-outcome }}
+          comparison: exact
 
   valid-terraform:
     name: Validate Valid Terraform
@@ -45,16 +125,97 @@ jobs:
           terraform_version: 'latest'
           continue_on_error: true
 
-      - uses: nick-fields/assert-action@v2
+      - name: Assert that the action succeeded
+        uses: nick-fields/assert-action@v2
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
+
+      - name: Assert that Terraform setup was successful
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.valid-terraform.outputs.setup-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform formatting check succeeded
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.valid-terraform.outputs.fmt-check-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu setup was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.valid-terraform.outputs.setup-opentofu-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu formatting check was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.valid-terraform.outputs.fmt-check-tofu-outcome }}
+          comparison: exact
+
+  valid-opentofu:
+    name: Validate Valid OpenTofu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Valid Terraform Formatting
+        uses: ./
+        id: valid-terraform
+        with:
+          working_directory: './tf-tests/validly-formatted'
+          terraform_version: 'latest'
+          continue_on_error: true
+          use_opentofu: 'true'
+
+      - name: Assert that the action succeeded
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.valid-terraform.outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform setup was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.valid-terraform.outputs.setup-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that Terraform formatting check was skipped
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: skipped
+          actual: ${{ steps.valid-terraform.outputs.fmt-check-terraform-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu setup was successful
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.valid-terraform.outputs.setup-opentofu-outcome }}
+          comparison: exact
+
+      - name: Assert that OpenTofu formatting check was successful
+        uses: nick-fields/assert-action@v2
+        with:
+          expected: success
+          actual: ${{ steps.valid-terraform.outputs.fmt-check-tofu-outcome }}
+          comparison: exact
+
   create-release-tag:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Create Release Tag
     runs-on: ubuntu-latest
-    needs: [valid-terraform, invalid-terraform]
+    needs: [valid-terraform, invalid-terraform, valid-opentofu, invalid-opentofu]
     permissions:
       contents: write
       actions: write
@@ -76,7 +237,7 @@ jobs:
   check-failure:
     name: Check Failure
     runs-on: ubuntu-latest
-    needs: [valid-terraform, invalid-terraform, create-release-tag]
+    needs: [valid-terraform, invalid-terraform, valid-opentofu, invalid-opentofu, create-release-tag]
     if: failure()
     steps:
       - name: Load secrets
