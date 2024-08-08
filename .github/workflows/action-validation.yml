@@ -99,7 +99,7 @@ jobs:
       - name: Assert that OpenTofu setup was successful
         uses: nick-fields/assert-action@v2
         with:
-          expected: successful
+          expected: success
           actual: ${{ steps.invalid-terraform.outputs.setup-opentofu-outcome }}
           comparison: exact
 
