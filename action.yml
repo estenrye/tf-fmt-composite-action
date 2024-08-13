@@ -39,7 +39,7 @@ runs:
 
       - name: OpenTofu - Setup Tofu
         id: setup-opentofu
-        uses: opentofu/setup-opentofu@v1.0.3
+        uses: opentofu/setup-opentofu@v1.0.4
         if: ${{ fromJSON(inputs.use_opentofu) == true }}
         with:
           tofu_version: ${{ inputs.terraform_version }}
