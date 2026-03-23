@@ -222,7 +222,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Load secrets
-        uses: 1password/load-secrets-action@v3
+        uses: 1password/load-secrets-action@v4
         with:
           # Export loaded secrets as environment variables
           export-env: true
@@ -241,7 +241,7 @@ jobs:
     if: failure()
     steps:
       - name: Load secrets
-        uses: 1password/load-secrets-action@v3
+        uses: 1password/load-secrets-action@v4
         with:
           # Export loaded secrets as environment variables
           export-env: true
