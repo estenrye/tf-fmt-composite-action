@@ -25,35 +25,35 @@ jobs:
         continue-on-error: true
 
       - name: Assert that the action failed
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: failure
           actual: ${{ steps.invalid-terraform.outcome }}
           comparison: exact
 
       - name: Assert that Terraform setup was successful
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.invalid-terraform.outputs.setup-terraform-outcome }}
           comparison: exact
 
       - name: Assert that Terraform formatting check failed
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: failure
           actual: ${{ steps.invalid-terraform.outputs.fmt-check-terraform-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu setup was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.invalid-terraform.outputs.setup-opentofu-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu formatting check was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.invalid-terraform.outputs.fmt-check-tofu-outcome }}
@@ -76,35 +76,35 @@ jobs:
         continue-on-error: true
 
       - name: Assert that the action failed
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: failure
           actual: ${{ steps.invalid-terraform.outcome }}
           comparison: exact
 
       - name: Assert that Terraform setup was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.invalid-terraform.outputs.setup-terraform-outcome }}
           comparison: exact
 
       - name: Assert that Terraform formatting check was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.invalid-terraform.outputs.fmt-check-terraform-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu setup was successful
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.invalid-terraform.outputs.setup-opentofu-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu formatting check failed
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: failure
           actual: ${{ steps.invalid-terraform.outputs.fmt-check-tofu-outcome }}
@@ -126,35 +126,35 @@ jobs:
           continue_on_error: true
 
       - name: Assert that the action succeeded
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
 
       - name: Assert that Terraform setup was successful
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outputs.setup-terraform-outcome }}
           comparison: exact
 
       - name: Assert that Terraform formatting check succeeded
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outputs.fmt-check-terraform-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu setup was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.valid-terraform.outputs.setup-opentofu-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu formatting check was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.valid-terraform.outputs.fmt-check-tofu-outcome }}
@@ -177,35 +177,35 @@ jobs:
           use_opentofu: 'true'
 
       - name: Assert that the action succeeded
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outcome }}
           comparison: exact
 
       - name: Assert that Terraform setup was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.valid-terraform.outputs.setup-terraform-outcome }}
           comparison: exact
 
       - name: Assert that Terraform formatting check was skipped
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: skipped
           actual: ${{ steps.valid-terraform.outputs.fmt-check-terraform-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu setup was successful
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outputs.setup-opentofu-outcome }}
           comparison: exact
 
       - name: Assert that OpenTofu formatting check was successful
-        uses: nick-fields/assert-action@v3
+        uses: nick-fields/assert-action@v4
         with:
           expected: success
           actual: ${{ steps.valid-terraform.outputs.fmt-check-tofu-outcome }}
